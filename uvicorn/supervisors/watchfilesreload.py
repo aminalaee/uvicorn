@@ -1,3 +1,5 @@
+import os
+
 from pathlib import Path
 from socket import socket
 from typing import Callable, List, Optional
@@ -71,6 +73,7 @@ class WatchFilesReload(BaseReload):
         if Path.cwd() not in self.reload_dirs:
             self.reload_dirs.append(Path.cwd())
 
+        os.environ.setdefault(WATCHFILES_IGNORE_PERMISSION_DENIED="True")
         self.watch_filter = FileFilter(config)
         self.watcher = watch(
             *self.reload_dirs,
